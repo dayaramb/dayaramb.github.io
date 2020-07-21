@@ -1,30 +1,19 @@
-## Welcome to GitHub Pages
+## Pentest make easy
 
-You can use the [editor on GitHub](https://github.com/dayaramb/dayaramb.github.io/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+The purspose of this site is to make the Penetration testing and Privilege escation make easy. There are several exploits and various writeup avilable. But when it is needed its very difficult to find out the exact exploit and the writeup.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+In this site I am attempting to collect most of the common exploits that appear in CTF and other exinvornments.
 
-### Markdown
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Random Exploit collection
 
-```markdown
-Syntax highlighted code block
+Here I am collectign some of the random exploits and their exploitation technqiues. Later I will categorised and group them to each group.
 
-# Header 1
-## Header 2
-### Header 3
+| Application Name | CVE | Scenario | Working Exploits | Reverse Shell | Writeup and Reference |
+| ------------- | ------------- |
+| Content Cell  | Content Cell  |
+| Content Cell  | Content Cell  |
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
