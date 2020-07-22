@@ -8,6 +8,10 @@ In this site I am attempting to collect most of the common exploits that appear 
 ### Random Exploit collection
 
 Here I am collectign some of the random exploits and their exploitation technqiues. Later I will categorised and group them to each group.
+| Name     | Character |
+| ---      | ---       |
+| Backtick | `         |
+| Pipe     | \|        |
 
 | Application Name | Vulnerability | Scenario | Working Exploits | Reverse Shell | Writeup and Reference |
 | --- | --- | --- | --- | --- | --- |
