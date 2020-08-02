@@ -1,3 +1,0 @@
-For reverse shell in ASP:
-
-locate cmd.aspx
