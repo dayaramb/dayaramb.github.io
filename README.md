@@ -4,6 +4,8 @@ The purspose of this site is to make the Penetration testing and Privilege escat
 
 In this site I am attempting to collect most of the common exploits that appear in CTF and other exinvornments.
 
+### [SQL Injection](https://dayaramb.github.io/resources/)
+
 ### [Getting Revese shell](https://github.com/dayaramb/dayaramb.github.io/tree/master/reverse_shells/README.md)
 
 ```bash
