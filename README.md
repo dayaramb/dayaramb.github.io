@@ -222,19 +222,24 @@ If services run with SYSTEM privileges and are misconfigured, exploiting them ma
 ## Service Command
 Query the configuration of a service:
 
-```bash sc.exe qc <name>
+```bash
+ sc.exe qc <name>
 ```
 Query the current status of a service:
 
-```bash sc.exe query <name>
+```bash 
+sc.exe query <name>
 ```
 Modify a configuration option of a service:
 
-```bash sc.exe config <name> <option>= <value>
+```bash
+ sc.exe config <name> <option>= <value>
 ```
 Start/Stop a service:
 
-* net start/stop <name>
+```bash
+ net start/stop <name>
+ ```
 
 ### accesschk
 
