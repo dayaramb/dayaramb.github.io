@@ -179,23 +179,23 @@ In windows there are multiple types of resoure (also known as objects):
 ** Services
 Whether a user and or/group has a permission to perform a certain action on a resource depends on that resossurce's ACL(access control list)
 
-** ALC & ACE
+## ACL & ACE
 Permissions to access a certain resource in Winndows are controlled by the access control list (ACL). Each ACL is made up of zero or more access control entries. (ACEs)
 
 Each ACE defines the relationship between a principal (eg. a user,group) adn a certain access right. 
 
 
-** Tools
-*** Powerup and Sharpup
+## Tools
+### Powerup and Sharpup
 They are similar tools to hunt for specific privilege escalations.
 ```bash
 powershell -exec bypass
 .\powerup.ps1
 -Invoke-Allchecks
 ```
-*** sharup (Binary)
+### sharup (Binary)
 .\sharup
-*** winpeas
+### winpeas
 
 Before running, we need to add a registry key and then reopen the command prompt:
 * reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
@@ -204,7 +204,7 @@ Run all checks while avoiding time-consuming searches:
 Run specific check categories:
 * .\winPEASany.exe quiet cmd systeminfo
 
-Kernel Exploits:
+### Kernel Exploits:
 python wes.py systeminfo.txt -i 'Elevation of Privilege' --exploits-only | le
 
 
@@ -212,11 +212,11 @@ Best tool.
 winpeash -h
 
 
-*** Services
+## Services
 Services are simply programs that run in the background, accepting input or performing regular tasks. 
 If services run with SYSTEM privileges and are misconfigured, exploiting them may lead to the command execution with SYSTEM privileges as well. 
 
-*** Service Command
+## Service Command
 Query the configuration of a service:
 * sc.exe qc <name>
 Query the current status of a service:
@@ -226,7 +226,7 @@ Modify a configuration option of a service:
 Start/Stop a service:
 * net start/stop <name>
 
-*** accesschk
+### accesschk
 
 
 
