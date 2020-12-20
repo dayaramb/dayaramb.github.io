@@ -199,9 +199,12 @@ powershell -exec bypass
 
 Before running, we need to add a registry key and then reopen the command prompt:
 * reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
+
 Run all checks while avoiding time-consuming searches:
+
 * .\winPEASany.exe quiet cmd fast
 Run specific check categories:
+
 * .\winPEASany.exe quiet cmd systeminfo
 
 ### Kernel Exploits:
@@ -218,12 +221,16 @@ If services run with SYSTEM privileges and are misconfigured, exploiting them ma
 
 ## Service Command
 Query the configuration of a service:
+
 * sc.exe qc <name>
 Query the current status of a service:
+
 * sc.exe query <name>
 Modify a configuration option of a service:
+
 * sc.exe config <name> <option>= <value>
 Start/Stop a service:
+
 * net start/stop <name>
 
 ### accesschk
