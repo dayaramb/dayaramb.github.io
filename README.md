@@ -186,9 +186,50 @@ Each ACE defines the relationship between a principal (eg. a user,group) adn a c
 
 
 ** Tools
-Powerup and Sharpup
+*** Powerup and Sharpup
 They are similar tools to hunt for specific privilege escalations.
-* regular 
+```bash
+powershell -exec bypass
+.\powerup.ps1
+-Invoke-Allchecks
+```
+*** sharup (Binary)
+.\sharup
+*** winpeas
+
+Before running, we need to add a registry key and then reopen the command prompt:
+* reg add HKCU\Console /v VirtualTerminalLevel /t REG_DWORD /d 1
+Run all checks while avoiding time-consuming searches:
+* .\winPEASany.exe quiet cmd fast
+Run specific check categories:
+* .\winPEASany.exe quiet cmd systeminfo
+
+Kernel Exploits:
+python wes.py systeminfo.txt -i 'Elevation of Privilege' --exploits-only | le
+
+
+Best tool. 
+winpeash -h
+
+
+*** Services
+Services are simply programs that run in the background, accepting input or performing regular tasks. 
+If services run with SYSTEM privileges and are misconfigured, exploiting them may lead to the command execution with SYSTEM privileges as well. 
+
+*** Service Command
+Query the configuration of a service:
+* sc.exe qc <name>
+Query the current status of a service:
+* sc.exe query <name>
+Modify a configuration option of a service:
+* sc.exe config <name> <option>= <value>
+Start/Stop a service:
+* net start/stop <name>
+
+*** accesschk
+
+
+
 
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
