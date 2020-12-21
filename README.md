@@ -357,7 +357,7 @@ configuration even if we cannot modify the service
 directly.
 
 #### winpeas output
-```powershll
+```powershell
 
 winPEASany.exe quiet servicesinfo
 ```
