@@ -367,9 +367,7 @@ winPEASany.exe quiet servicesinfo
    [?] Check if you can modify the registry of a service https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#services-registry-permissions                                                                                                                 
     HKLM\system\currentcontrolset\services\regsvc (Interactive [TakeOwnership])
 
-```
 
-```bash
 # Run winPEAS to check for service misconfigurations:
  .\winPEASany.exe quiet servicesinfo
 
@@ -378,7 +376,6 @@ winPEASany.exe quiet servicesinfo
 PowerShell:
 PS> Get-Acl HKLM:\System\CurrentControlSet\Services\regsvc | Format-List
 
-```bash
 PS C:\PrivEsc>  Get-Acl HKLM:\System\CurrentControlSet\Services\regsvc | Format-List
  Get-Acl HKLM:\System\CurrentControlSet\Services\regsvc | Format-List
 
@@ -400,8 +397,8 @@ Audit  :
 Sddl   : O:BAG:SYD:P(A;CI;KR;;;WD)(A;CI;KA;;;IU)(A;CI;KA;;;SY)(A;CI;KA;;;BA)(A;CIIO;GR;;;AC)(A;OICI;KR;;;AC)(A;CIIO;GR;
          ;;S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681)(A;OICI
          ;KR;;;S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681)
-
 ```
+```bash
 # Alternatively accesschk.exe can be used to confirm:
 > .\accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
 
