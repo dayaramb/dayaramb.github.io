@@ -378,6 +378,30 @@ winPEASany.exe quiet servicesinfo
 PowerShell:
 PS> Get-Acl HKLM:\System\CurrentControlSet\Services\regsvc | Format-List
 
+```bash
+PS C:\PrivEsc>  Get-Acl HKLM:\System\CurrentControlSet\Services\regsvc | Format-List
+ Get-Acl HKLM:\System\CurrentControlSet\Services\regsvc | Format-List
+
+
+Path   : Microsoft.PowerShell.Core\Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\regsvc
+Owner  : BUILTIN\Administrators
+Group  : NT AUTHORITY\SYSTEM
+Access : Everyone Allow  ReadKey
+         NT AUTHORITY\INTERACTIVE Allow  FullControl
+         NT AUTHORITY\SYSTEM Allow  FullControl
+         BUILTIN\Administrators Allow  FullControl
+         APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES Allow  -2147483648
+         APPLICATION PACKAGE AUTHORITY\ALL APPLICATION PACKAGES Allow  ReadKey
+         S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681 Allow  
+         -2147483648
+         S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681 Allow  
+         ReadKey
+Audit  : 
+Sddl   : O:BAG:SYD:P(A;CI;KR;;;WD)(A;CI;KA;;;IU)(A;CI;KA;;;SY)(A;CI;KA;;;BA)(A;CIIO;GR;;;AC)(A;OICI;KR;;;AC)(A;CIIO;GR;
+         ;;S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681)(A;OICI
+         ;KR;;;S-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681)
+
+```
 # Alternatively accesschk.exe can be used to confirm:
 > .\accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
 
