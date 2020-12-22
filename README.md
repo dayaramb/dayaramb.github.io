@@ -282,6 +282,24 @@ daclsvc name of the service.
 #Check the current configuration of the service:
 sc qc daclsvc
 
+C:\Users\user\Desktop\tools\tools>sc qc daclsvc
+sc qc daclsvc
+[SC] QueryServiceConfig SUCCESS
+
+SERVICE_NAME: daclsvc
+        TYPE               : 10  WIN32_OWN_PROCESS 
+        START_TYPE         : 3   DEMAND_START
+        ERROR_CONTROL      : 1   NORMAL
+        BINARY_PATH_NAME   : "C:\Program Files\DACL Service\daclservice.exe"
+        LOAD_ORDER_GROUP   : 
+        TAG                : 0
+        DISPLAY_NAME       : DACL Service
+        DEPENDENCIES       : 
+        SERVICE_START_NAME : LocalSystem
+
+
+It seems that the service is running in System Privileges. (SERVICE_START_NAME : LocalSystem)
+
 #Check the current status of the service:
 sc query daclsvc
 
