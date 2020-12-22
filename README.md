@@ -458,7 +458,7 @@ C:\PrivEsc\reverse.exe /f
 
 If the original service executable is modifiable by our user, we can simply replace it with our reverse shell executable. Remember to create a backup of the original executable if you are exploiting this in a real system
 
-###Privilege Escalation
+### Privilege Escalation
 ```bash
 Run winPEAS to check for service misconfigurations:
 > .\winPEASany.exe quiet servicesinfo
@@ -477,6 +477,7 @@ Service\filepermservice.exe"
 5. Start a listener on Kali, and then start the service to trigger the
 exploit:
 > net start filepermsvc
+```
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
