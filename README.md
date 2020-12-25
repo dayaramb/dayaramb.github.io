@@ -53,7 +53,11 @@ nc -u -lvp 4242
 
 Don't forget to check with others shell : sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, bash
 
-
+## Upload File directly
+```bash
+curl -X POST -F "submit:<value>" -F "<file-parameter>:@<path-to-file>" <site>
+```
+To use this method you would first aim to intercept a successful upload (using Burpsuite or the browser console) to see the parameters being used in the upload, which can then be slotted into the above command.
 
 ### Python
 
