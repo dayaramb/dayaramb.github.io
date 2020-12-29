@@ -130,6 +130,18 @@ sudo less /var/log/kern.log
 sudo find /var/log -name kern.log  -exec /bin/bash -i \;
 ```
 
+## Abusing Permissions.
+Look at startup scripts, possible cron jobs, user .bashrc's etc. and see if anythin is called we can write to. It might be an errant chmod -R
+
+ chmod is either your best friend or your worst enemy.
+
+## scenario:
+.ssh is in the backup directory. key might be the trusted key. 
+
+
+### By default home direcotry is created with world readable. 
+
+
 #### SUID /bin/systemctl
 create revshell.service as:
 ```bash
