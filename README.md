@@ -170,6 +170,7 @@ $ systemctl enable --now /tmp/daya.service
 Created symlink from /etc/systemd/system/multi-user.target.wants/revshell.service to /tmp/revshell.service.
 Job for daya.service failed because the control process exited with error code. See "systemctl status revshell.service" and "journalctl -xe" for details.
 
+It seems I don't even have to enable the service. linking is fine. 
 systemctl start revshell.service
 
 ```
