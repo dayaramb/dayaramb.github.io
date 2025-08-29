@@ -21,7 +21,7 @@ My primary areas of interest include:
 Jump directly to a topic that interests you.
 
 * 🛡️ **[Security Notes](./security/README.md)** - Collections on network security, web app vulnerabilities, and hardening guides.
-* ⚔️ **[Pentesting Labs](./pentesting/README.md)** - Walkthroughs and notes from platforms like Hack The Box and TryHackMe.
+* ⚔️ **[Pentesting Labs](./pentest/README.md)** - Walkthroughs and notes from platforms like Hack The Box and TryHackMe.
 * 🤖 **[Machine Learning](./ml/README.md)** - Notes on algorithms, deep learning concepts, and practical projects.
 * 🧘 **[Art of Living & Philosophy](./philosophy/README.md)** - Musings on Stoicism, mindfulness, mental models, and life principles.
 * 🌐 **[Networking](./networking/README.md)** - Core concepts, protocols, and troubleshooting cheat sheets.
@@ -36,9 +36,8 @@ The information here is for my own learning and reference. While I strive for ac
 If you spot an error or have a suggestion for improvement, please feel free to **open an issue** or **submit a pull request**!
 
 ---
-
 ## 📫 Connect with Me
 
-* **GitHub:** `https://github.com/dayaramb]`
-* **LinkedIn:** `https://linkedin.com/in/dayaramb`
-* **Blog:** `dayaramb.wordpress.com`
+* **GitHub:** [github.com/dayaramb](https://github.com/dayaramb)
+* **LinkedIn:** [linkedin.com/in/dayaramb](https://linkedin.com/in/dayaramb)
+* **Blog:** [dayaramb.wordpress.com](https://dayaramb.wordpress.com)
