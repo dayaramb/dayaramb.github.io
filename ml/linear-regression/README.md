@@ -94,3 +94,127 @@ A loss function calculates the difference (or error) between the model's predict
     MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
    ```
 * **Key Characteristic**: MSE is **sensitive to outliers**. It penalizes larger errors much more heavily, making it a good choice when you want to avoid large mistakes.
+
+
+
+## Gradient Descent:
+
+Gradient descent is a mathematical technique used to find the weights and bias that produce the model with the lowest loss. 
+
+Example of calulating Gradient Descent:
+Ref: https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent#expandable-1
+
+# Car Weight vs. Fuel Efficiency Dataset 🚗
+
+This is a small, simple dataset that shows the relationship between a car's weight and its fuel efficiency. It can be used for basic linear regression exercises.
+
+---
+
+## The Data
+
+The dataset consists of two variables: the car's weight in thousands of pounds (the feature) and its fuel efficiency in miles per gallon (the label).
+
+| Weight (1000s of lbs) | Miles Per Gallon (MPG) |
+| :-------------------- | :--------------------- |
+| 3.50                  | 18                     |
+| 3.69                  | 15                     |
+| 3.44                  | 18                     |
+| 3.43                  | 16                     |
+| 4.34                  | 15                     |
+| 4.42                  | 14                     |
+| 2.37                  | 24                     |
+
+---
+
+## Variable Definitions
+
+* **Feature (Input):** `Pounds in 1000s`
+    * This is the independent variable used to make a prediction.
+
+* **Label (Output):** `Miles per gallon`
+    * This is the dependent variable that we are trying to predict.
+
+
+
+## Gradient Descent Calculation:
+
+In each iteration, we perform two main operations:
+
+Calculate the Gradients: We determine the direction of steepest ascent for the loss function with respect to both the weight and the bias.
+
+Update Parameters: We adjust the weight and bias in the opposite direction of their gradients, scaled by the learning rate, to minimize the error.
+
+
+
+
+Derivatiion:
+
+# Gradient Derivation for Linear Regression
+
+This document outlines the mathematical derivation of the gradients for the weight (slope) and bias (intercept) parameters in simple linear regression using the Mean Squared Error (MSE) loss function.
+
+---
+
+## The Loss Function: MSE
+
+First, we define our loss function, **J(m, b)**, as the **Mean Squared Error (MSE)**. This function measures the average squared difference between the actual values ($y_i$) and the predicted values ($\hat{y}_i$).
+
+math```
+J(m,b) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+```
+
+Since the predicted value $\hat{y}_i$ is given by the line equation `mx_i + b`, we can write the loss function as:
+
+math```
+J(m,b) = \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2
+```
+
+---
+
+## Gradients
+
+The **gradient** tells us the direction of the steepest increase of the loss function. To minimize the loss, we calculate the partial derivative of the loss function with respect to each parameter (`m` and `b`) and move in the opposite direction.
+
+### Derivation of the Gradient for the Weight (m)
+
+To find the gradient for the weight, we compute the partial derivative of `J` with respect to `m`.
+
+1.  **Start with the Loss Function:**
+    math```
+    \frac{\partial J}{\partial m} = \frac{\partial}{\partial m} \left[ \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2 \right]
+    ```
+
+2.  **Apply the Chain Rule:**
+    * **Outer function**: $u^2$, where $u = y_i - (mx_i + b)$. The derivative is $2u$.
+    * **Inner function**: $y_i - (mx_i + b)$. The derivative with respect to `m` is $-x_i$.
+
+3.  **Combine and Simplify:**
+    math```
+    \frac{\partial J}{\partial m} = \frac{1}{n} \sum_{i=1}^{n} 2 \cdot (y_i - (mx_i + b)) \cdot (-x_i)
+    ```
+    This gives us the final formula for the "weight slope":
+    math```
+    \frac{\partial J}{\partial m} = -\frac{2}{n} \sum_{i=1}^{n} x_i(y_i - \hat{y}_i)
+    ```
+
+### Derivation of the Gradient for the Bias (b)
+
+Similarly, to find the gradient for the bias, we compute the partial derivative of `J` with respect to `b`.
+
+1.  **Start with the Loss Function:**
+    math
+    \frac{\partial J}{\partial b} = \frac{\partial}{\partial b} \left[ \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2 \right]
+    ```
+
+2.  **Apply the Chain Rule:**
+    * **Outer function**: $u^2$, where $u = y_i - (mx_i + b)$. The derivative is $2u$.
+    * **Inner function**: $y_i - (mx_i + b)$. The derivative with respect to `b` is $-1$.
+
+3.  **Combine and Simplify:**
+    math```
+    \frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} 2 \cdot (y_i - (mx_i + b)) \cdot (-1)
+   ```
+    This gives us the final formula for the "bias slope":
+    math```
+    \frac{\partial J}{\partial b} = -\frac{2}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)
+   ```
