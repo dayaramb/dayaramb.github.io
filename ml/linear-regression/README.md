@@ -80,9 +80,9 @@ A loss function calculates the difference (or error) between the model's predict
 **MAE** measures the average absolute difference between the actual and predicted values.
 
 * **Formula**:
-    $$
+    ```math
     MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
-    $$
+   ```
 * **Key Characteristic**: MAE is **robust to outliers** because it does not square the errors. A few large errors will not dominate the total loss.
 
 ### **MSE (L2 Loss) - Mean Squared Error**
@@ -90,7 +90,7 @@ A loss function calculates the difference (or error) between the model's predict
 **MSE** measures the average of the squared differences between the actual and predicted values.
 
 * **Formula**:
-    $$
+     ```math
     MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
-    $$
+   ```
 * **Key Characteristic**: MSE is **sensitive to outliers**. It penalizes larger errors much more heavily, making it a good choice when you want to avoid large mistakes.
