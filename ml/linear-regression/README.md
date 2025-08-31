@@ -159,13 +159,13 @@ This document outlines the mathematical derivation of the gradients for the weig
 
 First, we define our loss function, **J(m, b)**, as the **Mean Squared Error (MSE)**. This function measures the average squared difference between the actual values ($y_i$) and the predicted values ($\hat{y}_i$).
 
-math```
+```math
 J(m,b) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
 ```
 
 Since the predicted value $\hat{y}_i$ is given by the line equation `mx_i + b`, we can write the loss function as:
 
-math```
+```math
 J(m,b) = \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2
 ```
 
@@ -180,7 +180,7 @@ The **gradient** tells us the direction of the steepest increase of the loss fun
 To find the gradient for the weight, we compute the partial derivative of `J` with respect to `m`.
 
 1.  **Start with the Loss Function:**
-    math```
+   ``` math
     \frac{\partial J}{\partial m} = \frac{\partial}{\partial m} \left[ \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2 \right]
     ```
 
@@ -189,11 +189,11 @@ To find the gradient for the weight, we compute the partial derivative of `J` wi
     * **Inner function**: $y_i - (mx_i + b)$. The derivative with respect to `m` is $-x_i$.
 
 3.  **Combine and Simplify:**
-    math```
+    ```math
     \frac{\partial J}{\partial m} = \frac{1}{n} \sum_{i=1}^{n} 2 \cdot (y_i - (mx_i + b)) \cdot (-x_i)
     ```
     This gives us the final formula for the "weight slope":
-    math```
+    ```math
     \frac{\partial J}{\partial m} = -\frac{2}{n} \sum_{i=1}^{n} x_i(y_i - \hat{y}_i)
     ```
 
@@ -202,7 +202,7 @@ To find the gradient for the weight, we compute the partial derivative of `J` wi
 Similarly, to find the gradient for the bias, we compute the partial derivative of `J` with respect to `b`.
 
 1.  **Start with the Loss Function:**
-    math
+    ```math
     \frac{\partial J}{\partial b} = \frac{\partial}{\partial b} \left[ \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2 \right]
     ```
 
@@ -211,10 +211,10 @@ Similarly, to find the gradient for the bias, we compute the partial derivative 
     * **Inner function**: $y_i - (mx_i + b)$. The derivative with respect to `b` is $-1$.
 
 3.  **Combine and Simplify:**
-    math```
+   ```math
     \frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} 2 \cdot (y_i - (mx_i + b)) \cdot (-1)
    ```
     This gives us the final formula for the "bias slope":
-    math```
+    ```math
     \frac{\partial J}{\partial b} = -\frac{2}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)
    ```
