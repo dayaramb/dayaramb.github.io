@@ -336,3 +336,19 @@ Finally, we calculate the resulting MSE with the latest parameters.
 * **New MSE**: **103.17**
 
 The error continues to decrease, showing that our model is learning and improving with each iteration.
+
+
+Gradient Descent calculation using simple plain python scripts. 
+./gd.py
+```bash
+python3 gd.py
+Iteration	Weight	Bias	Loss
+0	0.0000	0.0000	303.7143
+1	1.1972	0.3429	170.8431
+2	2.0500	0.5927	103.1740
+3	2.6572	0.7762	68.7028
+4	3.0890	0.9123	51.1344
+5	3.3957	1.0145	42.1721
+6	3.6132	1.0927	37.5916
+
+
