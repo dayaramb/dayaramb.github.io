@@ -180,10 +180,9 @@ The **gradient** tells us the direction of the steepest increase of the loss fun
 To find the gradient for the weight, we compute the partial derivative of `J` with respect to `m`.
 
 1.  **Start with the Loss Function:**
-   ``` math
+   $
     \frac{\partial J}{\partial m} = \frac{\partial}{\partial m} \left[ \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2 \right]
-    ```
-
+$
 2.  **Apply the Chain Rule:**
     * **Outer function**: $u^2$, where $u = y_i - (mx_i + b)$. The derivative is $2u$.
     * **Inner function**: $y_i - (mx_i + b)$. The derivative with respect to `m` is $-x_i$.
@@ -214,7 +213,127 @@ Similarly, to find the gradient for the bias, we compute the partial derivative 
    ```math
     \frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} 2 \cdot (y_i - (mx_i + b)) \cdot (-1)
    ```
-    This gives us the final formula for the "bias slope":
-    ```math
+
+   This gives us the final formula for the "bias slope":
+   ```math
     \frac{\partial J}{\partial b} = -\frac{2}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)
    ```
+> *Note: Some libraries remove the `2` from the gradient formula.*
+
+New Weight = Old Weight - (Learning Rate * Weight Slope)
+
+New Bias = Old Bias - (Learning Rate * Bias Slope)
+
+
+So, for the first 
+
+Of course. For the first iteration with the weight (**w**) and bias (**b**) set to 0, the Mean Squared Error (MSE) is approximately **303.71**.
+
+Here are the steps for the calculation.
+
+---
+## Iteration 1
+---
+### 1. Calculate the Predicted Values ($\hat{y}$)
+The formula for the predicted value is $\hat{y} = wx + b$. Since you set $w=0$ and $b=0$, the predicted value for every car's MPG will be 0, regardless of its weight.
+
+$\hat{y} = (0 \cdot x) + 0 = 0$
+
+### 2. Calculate the Squared Error for Each Data Point
+Next, we calculate the squared difference between the actual MPG ($y$) and the predicted MPG ($\hat{y}$) for each car. The formula is $(y - \hat{y})^2$.
+
+| Weight (x) | Actual MPG (y) | Predicted MPG ($\hat{y}$) | Squared Error $(y - \hat{y})^2$ |
+| :--- | :--- | :--- | :--- |
+| 3.50 | 18 | 0 | $(18 - 0)^2 = 324$ |
+| 3.69 | 15 | 0 | $(15 - 0)^2 = 225$ |
+| 3.44 | 18 | 0 | $(18 - 0)^2 = 324$ |
+| 3.43 | 16 | 0 | $(16 - 0)^2 = 256$ |
+| 4.34 | 15 | 0 | $(15 - 0)^2 = 225$ |
+| 4.42 | 14 | 0 | $(14 - 0)^2 = 196$ |
+| 2.37 | 24 | 0 | $(24 - 0)^2 = 576$ |
+
+### 3. Calculate the Mean Squared Error (MSE)
+Finally, we find the average of all the squared errors. We sum them up and divide by the number of data points (n=7).
+
+$$
+\text{MSE} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
+$$
+
+$$
+\text{Sum of Squared Errors} = 324 + 225 + 324 + 256 + 225 + 196 + 576 = 2126
+$$
+
+$$
+\text{MSE} = \frac{2126}{7} \approx 303.71
+$$
+
+Of course. Here are the calculations for the 2nd and 3rd gradient descent iterations.
+
+For these calculations, we need to set a **learning rate**, which controls how big of a step we take to update our parameters. A common value is **0.01**, which we'll use here.
+
+---
+## Iteration 2
+
+In this iteration, we start with the parameters from the beginning: $w=0$ and $b=0$. The goal is to calculate the gradients, update the parameters, and find the new, lower MSE.
+
+### 1. Calculate Gradients
+First, we calculate the gradient (the slope of the loss function) for both the weight ($w$) and the bias ($b$).
+
+* **Gradient for w**: -119.72
+* **Gradient for b**: -34.29
+
+### 2. Update Parameters
+Next, we update the weight and bias by moving in the *opposite* direction of the gradient, scaled by the learning rate.
+
+* **New w** = $w - (\text{learning\_rate} \times \text{gradient\_w}) = 0 - (0.01 \times -119.72) = \bf{1.1972}$
+* **New b** = $b - (\text{learning\_rate} \times \text{gradient\_b}) = 0 - (0.01 \times -34.29) = \bf{0.3429}$
+
+### 3. Calculate New MSE
+Using our updated parameters, we calculate the new MSE.
+
+* **New MSE**: **170.84**
+
+As you can see, the error dropped significantly from the initial MSE of 303.71.
+
+---
+## Detailed MSE Calculation for Iteration 2
+Using the updated parameters `w=1.1972` and `b=0.3429`, we can create a detailed breakdown of the new MSE.
+
+|   Weight (x) |   Actual MPG (y) |   Predicted MPG (ŷ) |   Error (y - ŷ) |   Squared Error (y - ŷ)² |
+|-------------:|-----------------:|--------------------:|----------------:|-------------------------:|
+|         3.50 |               18 |              4.5330 |         13.4670 |                 181.3612 |
+|         3.69 |               15 |              4.7604 |         10.2396 |                 104.8490 |
+|         3.44 |               18 |              4.4611 |         13.5389 |                 183.3011 |
+|         3.43 |               16 |              4.4492 |         11.5508 |                 133.4220 |
+|         4.34 |               15 |              5.5386 |          9.4614 |                  89.5184 |
+|         4.42 |               14 |              5.6344 |          8.3656 |                  69.9840 |
+|         2.37 |               24 |              3.1802 |         20.8198 |                 433.4660 |
+
+**Sum of Squared Errors** = `181.36 + 104.85 + 183.30 + 133.42 + 89.52 + 69.98 + 433.47 = 1195.90`
+
+**MSE** = Sum of Squared Errors / n = `1195.90 / 7 =` **170.84**
+
+---
+## Iteration 3
+
+Now, we repeat the process using the updated parameters from iteration 2 ($w=1.1972$ and $b=0.3429$).
+
+### 1. Calculate Gradients
+We calculate the new gradients based on the errors from the previous iteration.
+
+* **Gradient for w**: -85.28
+* **Gradient for b**: -24.98
+
+### 2. Update Parameters
+We update the weight and bias again.
+
+* **New w** = $1.1972 - (0.01 \times -85.28) = \bf{2.0500}$
+* **New b** = $0.3429 - (0.01 \times -24.98) = \bf{0.5927}$
+
+### 3. Calculate New MSE
+Finally, we calculate the resulting MSE with the latest parameters.
+
+* **New MSE**: **103.17**
+
+The error continues to decrease, showing that our model is learning and improving with each iteration.
+
