@@ -37,7 +37,7 @@ Other common names for the Y variable include:
 ## Linear regression equation"
 
 In algebric terms, the model is defiend as:
-y= mx + b.
+$$y= mx + b$$
 
 
 ## Model Parameters: Weights and Bias
@@ -58,14 +58,14 @@ The **bias** is a single number that acts as a baseline for predictions. It's li
 
 ## Models with multiple Features:
 
-Y' = b + w1x + w2x2 +w3x3 + w4x4 + w5 x5
+$$Y' = b + w_1x_1 + w_2x_2 + w_3x_3 + w_4x_4 + w_5 x_5$$
 
-During training the bias and weight of the linear regression equation are updated. 
+During training the bias and weight of the linear regression equation are updated.
 
 
 ## Linear Regression Loss:
 
-Loss is a numerical metric that describes how wrong a model's prediction is. Loss measures the distance between the model's predicitons and the actual lables. The goal of the training a model is to minimize the loss, 
+Loss is a numerical metric that describes how wrong a model's prediction is. Loss measures the distance between the model's predicitons and the actual lables. The goal of the training a model is to minimize the loss,
 
 
 
@@ -80,9 +80,9 @@ A loss function calculates the difference (or error) between the model's predict
 **MAE** measures the average absolute difference between the actual and predicted values.
 
 * **Formula**:
-    ```math
+    $$
     MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
-   ```
+    $$
 * **Key Characteristic**: MAE is **robust to outliers** because it does not square the errors. A few large errors will not dominate the total loss.
 
 ### **MSE (L2 Loss) - Mean Squared Error**
@@ -90,16 +90,16 @@ A loss function calculates the difference (or error) between the model's predict
 **MSE** measures the average of the squared differences between the actual and predicted values.
 
 * **Formula**:
-     ```math
+    $$
     MSE = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
-   ```
+    $$
 * **Key Characteristic**: MSE is **sensitive to outliers**. It penalizes larger errors much more heavily, making it a good choice when you want to avoid large mistakes.
 
 
 
 ## Gradient Descent:
 
-Gradient descent is a mathematical technique used to find the weights and bias that produce the model with the lowest loss. 
+Gradient descent is a mathematical technique used to find the weights and bias that produce the model with the lowest loss.
 
 Example of calulating Gradient Descent:
 Ref: https://developers.google.com/machine-learning/crash-course/linear-regression/gradient-descent#expandable-1
@@ -159,15 +159,15 @@ This document outlines the mathematical derivation of the gradients for the weig
 
 First, we define our loss function, **J(m, b)**, as the **Mean Squared Error (MSE)**. This function measures the average squared difference between the actual values ($y_i$) and the predicted values ($\hat{y}_i$).
 
-```math
+$$
 J(m,b) = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2
-```
+$$
 
 Since the predicted value $\hat{y}_i$ is given by the line equation `mx_i + b`, we can write the loss function as:
 
-```math
+$$
 J(m,b) = \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2
-```
+$$
 
 ---
 
@@ -180,44 +180,44 @@ The **gradient** tells us the direction of the steepest increase of the loss fun
 To find the gradient for the weight, we compute the partial derivative of `J` with respect to `m`.
 
 1.  **Start with the Loss Function:**
-   $
+   $$
     \frac{\partial J}{\partial m} = \frac{\partial}{\partial m} \left[ \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2 \right]
-$
+   $$
 2.  **Apply the Chain Rule:**
     * **Outer function**: $u^2$, where $u = y_i - (mx_i + b)$. The derivative is $2u$.
     * **Inner function**: $y_i - (mx_i + b)$. The derivative with respect to `m` is $-x_i$.
 
 3.  **Combine and Simplify:**
-    ```math
+    $$
     \frac{\partial J}{\partial m} = \frac{1}{n} \sum_{i=1}^{n} 2 \cdot (y_i - (mx_i + b)) \cdot (-x_i)
-    ```
+    $$
     This gives us the final formula for the "weight slope":
-    ```math
+    $$
     \frac{\partial J}{\partial m} = -\frac{2}{n} \sum_{i=1}^{n} x_i(y_i - \hat{y}_i)
-    ```
+    $$
 
 ### Derivation of the Gradient for the Bias (b)
 
 Similarly, to find the gradient for the bias, we compute the partial derivative of `J` with respect to `b`.
 
 1.  **Start with the Loss Function:**
-    ```math
+    $$
     \frac{\partial J}{\partial b} = \frac{\partial}{\partial b} \left[ \frac{1}{n} \sum_{i=1}^{n} (y_i - (mx_i + b))^2 \right]
-    ```
+    $$
 
 2.  **Apply the Chain Rule:**
     * **Outer function**: $u^2$, where $u = y_i - (mx_i + b)$. The derivative is $2u$.
     * **Inner function**: $y_i - (mx_i + b)$. The derivative with respect to `b` is $-1$.
 
 3.  **Combine and Simplify:**
-   ```math
+   $$
     \frac{\partial J}{\partial b} = \frac{1}{n} \sum_{i=1}^{n} 2 \cdot (y_i - (mx_i + b)) \cdot (-1)
-   ```
+   $$
 
    This gives us the final formula for the "bias slope":
-   ```math
+   $$
     \frac{\partial J}{\partial b} = -\frac{2}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)
-   ```
+   $$
 > *Note: Some libraries remove the `2` from the gradient formula.*
 
 New Weight = Old Weight - (Learning Rate * Weight Slope)
@@ -225,7 +225,7 @@ New Weight = Old Weight - (Learning Rate * Weight Slope)
 New Bias = Old Bias - (Learning Rate * Bias Slope)
 
 
-So, for the first 
+So, for the first
 
 Of course. For the first iteration with the weight (**w**) and bias (**b**) set to 0, the Mean Squared Error (MSE) is approximately **303.71**.
 
@@ -237,7 +237,7 @@ Here are the steps for the calculation.
 ### 1. Calculate the Predicted Values ($\hat{y}$)
 The formula for the predicted value is $\hat{y} = wx + b$. Since you set $w=0$ and $b=0$, the predicted value for every car's MPG will be 0, regardless of its weight.
 
-$\hat{y} = (0 \cdot x) + 0 = 0$
+$$\hat{y} = (0 \cdot x) + 0 = 0$$
 
 ### 2. Calculate the Squared Error for Each Data Point
 Next, we calculate the squared difference between the actual MPG ($y$) and the predicted MPG ($\hat{y}$) for each car. The formula is $(y - \hat{y})^2$.
@@ -336,4 +336,3 @@ Finally, we calculate the resulting MSE with the latest parameters.
 * **New MSE**: **103.17**
 
 The error continues to decrease, showing that our model is learning and improving with each iteration.
-
