@@ -22,7 +22,7 @@ Jump directly to a topic that interests you.
 
 * 🛡️ **[Security Notes](./security/README.md)** - Collections on network security, web app vulnerabilities, and hardening guides.
 * ⚔️ **[Pentesting Labs](./pentest/README.md)** - Walkthroughs and notes from platforms like Hack The Box and TryHackMe.
-* 🤖 **[Machine Learning](./ml/README.md)** - Notes on algorithms, deep learning concepts, and practical projects.
+* 🤖 **[Machine Learning](./ml/linear-regression/README.md)** - Notes on algorithms, deep learning concepts, and practical projects.
 * 🧘 **[Art of Living & Philosophy](./philosophy/README.md)** - Musings on Stoicism, mindfulness, mental models, and life principles.
 * 🌐 **[Networking](./networking/README.md)** - Core concepts, protocols, and troubleshooting cheat sheets.
 * 💻 **[Programming](./programming/README.md)** - Snippets, design patterns, and notes on various languages.
