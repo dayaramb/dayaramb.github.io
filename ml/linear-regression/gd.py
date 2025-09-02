@@ -41,7 +41,7 @@ def main():
     b=0
     print(f"{'Iteration':<12} | {'Weight':<10} | {'Bias':<10} | {'Loss'}")
     print("-" * 50) # A separator line for clarity
-    for i in range(7):
+    for i in range(2000000):
         p=predict(m,b)
         loss=mse(p)
         print(f"{i:<12} | {m:<10.4f} | {b:<10.4f} | {loss:.4f}")

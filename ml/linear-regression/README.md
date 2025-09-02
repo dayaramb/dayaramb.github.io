@@ -338,8 +338,7 @@ Finally, we calculate the resulting MSE with the latest parameters.
 The error continues to decrease, showing that our model is learning and improving with each iteration.
 
 
-Gradient Descent calculation using simple plain python scripts. 
-./gd.py
+Gradient Descent calculation using simple plain [python scripts](./gd.py)
 ```bash
 python3 gd.py
 Iteration	Weight	Bias	Loss
@@ -350,5 +349,43 @@ Iteration	Weight	Bias	Loss
 4	3.0890	0.9123	51.1344
 5	3.3957	1.0145	42.1721
 6	3.6132	1.0927	37.5916
+```
 
+In order to make the calculation efficient we use the numpy libary. 
+
+
+
+
+## Vectorisation:
+A vectorized function is a function that can operate on entire arrays (or "vectors") of data at once, rather than processing each element one by one in a loop.
+
+The "For Loop" Way (Non-Vectorized)
+This was your original approach. It iterates through the x_values list, calculating a prediction for one value at a time and appending it to a new list.
+
+```python
+def predict(m, b):
+    p = []
+    # This loop processes ONE x_value at a time
+    for i in range(len(x_values)):
+        pi = m * x_values[i] + b
+        p.append(pi)
+    return p
+```
+
+The NumPy Way (Vectorized) 🚀
+
+```python
+# 'x_values' is a NumPy array
+predictions = m * x_values + b
+```
+
+Here's what happens "under the hood":
+
+NumPy takes the scalar m and multiplies it by every element in the x_values array.
+
+It then takes the scalar b and adds it to every element of the result.
+
+This all happens at once in highly optimized, pre-compiled C code, not in a slow Python loop.
+
+The same principle applies to calculating the error and the gradients in the optimized code. Instead of looping, we perform a single operation on the entire array.
 
